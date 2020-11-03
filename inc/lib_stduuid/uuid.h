@@ -561,26 +561,26 @@ namespace uuids
       
       // manipulate stream as needed
       s << std::hex << std::setfill(static_cast<Elem>('0'))
-         << std::setw(2) << (int)id.data[0]
-         << std::setw(2) << (int)id.data[1]
-         << std::setw(2) << (int)id.data[2]
-         << std::setw(2) << (int)id.data[3]
+         << std::setw(2) << int(id.data[0])
+         << std::setw(2) << int(id.data[1])
+         << std::setw(2) << int(id.data[2])
+         << std::setw(2) << int(id.data[3])
          << '-'
-         << std::setw(2) << (int)id.data[4]
-         << std::setw(2) << (int)id.data[5]
+         << std::setw(2) << int(id.data[4])
+         << std::setw(2) << int(id.data[5])
          << '-'
-         << std::setw(2) << (int)id.data[6]
-         << std::setw(2) << (int)id.data[7]
+         << std::setw(2) << int(id.data[6])
+         << std::setw(2) << int(id.data[7])
          << '-'
-         << std::setw(2) << (int)id.data[8]
-         << std::setw(2) << (int)id.data[9]
+         << std::setw(2) << int(id.data[8])
+         << std::setw(2) << int(id.data[9])
          << '-'
-         << std::setw(2) << (int)id.data[10]
-         << std::setw(2) << (int)id.data[11]
-         << std::setw(2) << (int)id.data[12]
-         << std::setw(2) << (int)id.data[13]
-         << std::setw(2) << (int)id.data[14]
-         << std::setw(2) << (int)id.data[15];
+         << std::setw(2) << int(id.data[10])
+         << std::setw(2) << int(id.data[11])
+         << std::setw(2) << int(id.data[12])
+         << std::setw(2) << int(id.data[13])
+         << std::setw(2) << int(id.data[14])
+         << std::setw(2) << int(id.data[15]);
 
       // restore original flags
       s.flags(f);
