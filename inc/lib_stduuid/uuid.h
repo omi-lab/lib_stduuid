@@ -55,11 +55,11 @@ namespace uuids
       template <typename TChar>
       constexpr inline unsigned char hex2char(TChar const ch)
       {
-         if (ch >= static_cast<TChar>('0') && ch <= static_cast<TChar>('9'))
+         if(ch >= static_cast<TChar>('0') && ch <= static_cast<TChar>('9'))
             return ch - static_cast<TChar>('0');
-         if (ch >= static_cast<TChar>('a') && ch <= static_cast<TChar>('f'))
+         if(ch >= static_cast<TChar>('a') && ch <= static_cast<TChar>('f'))
             return 10 + ch - static_cast<TChar>('a');
-         if (ch >= static_cast<TChar>('A') && ch <= static_cast<TChar>('F'))
+         if(ch >= static_cast<TChar>('A') && ch <= static_cast<TChar>('F'))
             return 10 + ch - static_cast<TChar>('A');
          return 0;
       }
@@ -109,7 +109,7 @@ namespace uuids
          {
             this->m_block[this->m_blockByteIndex++] = octet;
             ++this->m_byteCount;
-            if (m_blockByteIndex == block_bytes)
+            if(m_blockByteIndex == block_bytes)
             {
                this->m_blockByteIndex = 0;
                process_block();
@@ -137,7 +137,7 @@ namespace uuids
          {
             size_t const bitCount = this->m_byteCount * 8;
             process_byte(0x80);
-            if (this->m_blockByteIndex > 56) {
+            if(this->m_blockByteIndex > 56) {
                while (m_blockByteIndex != 0) {
                   process_byte(0);
                }
@@ -200,13 +200,13 @@ namespace uuids
          void process_block() 
          {
             uint32_t w[80];
-            for (size_t i = 0; i < 16; i++) {
+            for(size_t i = 0; i < 16; i++) {
                w[i] = (m_block[i * 4 + 0] << 24);
                w[i] |= (m_block[i * 4 + 1] << 16);
                w[i] |= (m_block[i * 4 + 2] << 8);
                w[i] |= (m_block[i * 4 + 3]);
             }
-            for (size_t i = 16; i < 80; i++) {
+            for(size_t i = 16; i < 80; i++) {
                w[i] = left_rotate((w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16]), 1);
             }
 
@@ -216,20 +216,20 @@ namespace uuids
             uint32_t d = m_digest[3];
             uint32_t e = m_digest[4];
 
-            for (std::size_t i = 0; i < 80; ++i) 
+            for(std::size_t i = 0; i < 80; ++i) 
             {
                uint32_t f = 0;
                uint32_t k = 0;
 
-               if (i < 20) {
+               if(i < 20) {
                   f = (b & c) | (~b & d);
                   k = 0x5A827999;
                }
-               else if (i < 40) {
+               else if(i < 40) {
                   f = b ^ c ^ d;
                   k = 0x6ED9EBA1;
                }
-               else if (i < 60) {
+               else if(i < 60) {
                   f = (b & c) | (b & d) | (c & d);
                   k = 0x8F1BBCDC;
                }
@@ -360,17 +360,17 @@ namespace uuids
       template<typename ForwardIterator>
       explicit uuid(ForwardIterator first, ForwardIterator last)
       {
-         if (std::distance(first, last) == 16)
+         if(std::distance(first, last) == 16)
             std::copy(first, last, std::begin(data));
       }
       
       constexpr uuid_variant variant() const noexcept
       {
-         if ((data[8] & 0x80) == 0x00)
+         if((data[8] & 0x80) == 0x00)
             return uuid_variant::ncs;
-         else if ((data[8] & 0xC0) == 0x80)
+         else if((data[8] & 0xC0) == 0x80)
             return uuid_variant::rfc;
-         else if ((data[8] & 0xE0) == 0xC0)
+         else if((data[8] & 0xE0) == 0xC0)
             return uuid_variant::microsoft;
          else
             return uuid_variant::reserved;
@@ -378,15 +378,15 @@ namespace uuids
 
       constexpr uuid_version version() const noexcept
       {
-         if ((data[6] & 0xF0) == 0x10)
+         if((data[6] & 0xF0) == 0x10)
             return uuid_version::time_based;
-         else if ((data[6] & 0xF0) == 0x20)
+         else if((data[6] & 0xF0) == 0x20)
             return uuid_version::dce_security;
-         else if ((data[6] & 0xF0) == 0x30)
+         else if((data[6] & 0xF0) == 0x30)
             return uuid_version::name_based_md5;
-         else if ((data[6] & 0xF0) == 0x40)
+         else if((data[6] & 0xF0) == 0x40)
             return uuid_version::random_number_based;
-         else if ((data[6] & 0xF0) == 0x50)
+         else if((data[6] & 0xF0) == 0x50)
             return uuid_version::name_based_sha1;
          else
             return uuid_version::none;
@@ -394,7 +394,7 @@ namespace uuids
 
       constexpr bool is_nil() const noexcept
       {
-         for (size_t i = 0; i < data.size(); ++i) if (data[i] != 0) return false;
+         for(size_t i = 0; i < data.size(); ++i) if(data[i] != 0) return false;
          return true;
       }
 
@@ -421,24 +421,24 @@ namespace uuids
          else
             size = wcslen(str);
 
-         if (str == nullptr || size == 0) 
+         if(str == nullptr || size == 0) 
             return false;
 
-         if (str[0] == static_cast<CharT>('{'))
+         if(str[0] == static_cast<CharT>('{'))
             hasBraces = 1;
-         if (hasBraces && str[size - 1] != static_cast<CharT>('}'))
+         if(hasBraces && str[size - 1] != static_cast<CharT>('}'))
             return false;
 
-         for (size_t i = hasBraces; i < size - hasBraces; ++i)
+         for(size_t i = hasBraces; i < size - hasBraces; ++i)
          {
-            if (str[i] == static_cast<CharT>('-')) continue;
+            if(str[i] == static_cast<CharT>('-')) continue;
 
-            if (index >= 16 || !detail::is_hex(str[i]))
+            if(index >= 16 || !detail::is_hex(str[i]))
             {
                return false;
             }
 
-            if (firstDigit)
+            if(firstDigit)
             {
                firstDigit = false;
             }
@@ -449,7 +449,7 @@ namespace uuids
             }
          }
 
-         if (index < 16)
+         if(index < 16)
          {
             return false;
          }
@@ -480,23 +480,23 @@ namespace uuids
 
          std::array<uint8_t, 16> data{ { 0 } };
 
-         if (str == nullptr || size == 0) return {};
+         if(str == nullptr || size == 0) return {};
 
-         if (str[0] == static_cast<CharT>('{'))
+         if(str[0] == static_cast<CharT>('{'))
             hasBraces = 1;
-         if (hasBraces && str[size - 1] != static_cast<CharT>('}'))
+         if(hasBraces && str[size - 1] != static_cast<CharT>('}'))
             return {};
 
-         for (size_t i = hasBraces; i < size - hasBraces; ++i)
+         for(size_t i = hasBraces; i < size - hasBraces; ++i)
          {
-            if (str[i] == static_cast<CharT>('-')) continue;
+            if(str[i] == static_cast<CharT>('-')) continue;
 
-            if (index >= 16 || !detail::is_hex(str[i]))
+            if(index >= 16 || !detail::is_hex(str[i]))
             {
                return {};
             }
 
-            if (firstDigit)
+            if(firstDigit)
             {
                digit = str[i];
                firstDigit = false;
@@ -508,7 +508,7 @@ namespace uuids
             }
          }
 
-         if (index < 16)
+         if(index < 16)
          {
             return {};
          }
@@ -734,7 +734,7 @@ namespace uuids
       uuid operator()()
       {
          uint8_t bytes[16];
-         for (int i = 0; i < 16; i += 4)
+         for(int i = 0; i < 16; i += 4)
             *reinterpret_cast<uint32_t*>(bytes + i) = distribution(*generator);
 
          // variant must be 10xxxxxx
@@ -800,7 +800,7 @@ namespace uuids
                 typename = std::enable_if_t<std::is_integral<char_type>::value>>
       void process_characters(char_type const * const characters, size_t const count)
       {
-         for (size_t i = 0; i < count; i++) 
+         for(size_t i = 0; i < count; i++) 
          {
             uint32_t c = characters[i];
             hasher.process_byte(static_cast<unsigned char>((c >> 0) & 0xFF));
@@ -846,7 +846,7 @@ namespace uuids
 
 //      bool get_mac_address()
 //      {
-//         if (device_address.has_value())
+//         if(device_address.has_value())
 //         {
 //            return true;
 //         }
@@ -854,11 +854,11 @@ namespace uuids
 //#ifdef _WIN32
 //         DWORD len = 0;
 //         auto ret = GetAdaptersInfo(nullptr, &len);
-//         if (ret != ERROR_BUFFER_OVERFLOW) return false;
+//         if(ret != ERROR_BUFFER_OVERFLOW) return false;
 //         std::vector<unsigned char> buf(len);
 //         auto pips = reinterpret_cast<PIP_ADAPTER_INFO>(&buf.front());
 //         ret = GetAdaptersInfo(pips, &len);
-//         if (ret != ERROR_SUCCESS) return false;
+//         if(ret != ERROR_SUCCESS) return false;
 //         mac_address addr;
 //         std::copy(pips->Address, pips->Address + 6, std::begin(addr));
 //         device_address = addr;
@@ -882,7 +882,7 @@ namespace uuids
 
 //      uuid operator()()
 //      {
-//         if (get_mac_address())
+//         if(get_mac_address())
 //         {
 //            std::array<uuids::uuid::value_type, 16> data;
 
