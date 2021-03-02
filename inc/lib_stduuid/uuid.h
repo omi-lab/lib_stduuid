@@ -32,7 +32,10 @@
 #include <windows.h>
 #include <intrin.h>       
 #include <iphlpapi.h> 
+
+#ifdef TP_WIN32_MSVC
 #pragma comment(lib, "IPHLPAPI.lib")
+#endif
 
 #elif defined(__linux__) || defined(__unix__)
 
