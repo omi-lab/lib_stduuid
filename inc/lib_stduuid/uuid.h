@@ -264,9 +264,23 @@ namespace uuids
          size_t m_byteCount;
       };
 
-      static std::mt19937 clock_gen(lib_platform::RandomDevice{}());
-      static std::uniform_int_distribution<short> clock_dis{ -32768, 32767 };
-      static std::atomic_short clock_sequence = clock_dis(clock_gen);
+      // static std::mt19937& clock_gen()
+      // {
+      //   static thread_local std::mt19937 clock_gen(lib_platform::RandomDevice{}());
+      //   return clock_gen;
+      // }
+      //
+      // static std::uniform_int_distribution<short>& clock_dis()
+      // {
+      //   static thread_local std::uniform_int_distribution<short> clock_dis{ -32768, 32767 };
+      //   return clock_dis;
+      // }
+
+      // static std::atomic_short& clock_sequence()
+      // {
+      //   static thread_local std::atomic_short clock_sequence = clock_dis()(clock_gen);
+      //   return clock_sequence;
+      // }
    }
 
    // --------------------------------------------------------------------------------------------------------------------------
@@ -612,17 +626,21 @@ namespace uuids
    // namespace IDs that could be used for generating name-based uuids
    // --------------------------------------------------------------------------------------------------------------------------
 
-   // Name string is a fully-qualified domain name
-   static uuid uuid_namespace_dns{ {0x6b, 0xa7, 0xb8, 0x10, 0x9d, 0xad, 0x11, 0xd1, 0x80, 0xb4, 0x00, 0xc0, 0x4f, 0xd4, 0x30, 0xc8} };
-
-   // Name string is a URL
-   static uuid uuid_namespace_url{ {0x6b, 0xa7, 0xb8, 0x11, 0x9d, 0xad, 0x11, 0xd1, 0x80, 0xb4, 0x00, 0xc0, 0x4f, 0xd4, 0x30, 0xc8} };
-
-   // Name string is an ISO OID (See https://oidref.com/, https://en.wikipedia.org/wiki/Object_identifier)
-   static uuid uuid_namespace_oid{ {0x6b, 0xa7, 0xb8, 0x12, 0x9d, 0xad, 0x11, 0xd1, 0x80, 0xb4, 0x00, 0xc0, 0x4f, 0xd4, 0x30, 0xc8} };
-
-   // Name string is an X.500 DN, in DER or a text output format (See https://en.wikipedia.org/wiki/X.500, https://en.wikipedia.org/wiki/Abstract_Syntax_Notation_One)
-   static uuid uuid_namespace_x500{ {0x6b, 0xa7, 0xb8, 0x14, 0x9d, 0xad, 0x11, 0xd1, 0x80, 0xb4, 0x00, 0xc0, 0x4f, 0xd4, 0x30, 0xc8} };
+   // // Name string is a fully-qualified domain name
+   // static const uuid& uuid_namespace_dns()
+   // {
+   //   static thread_local uuid uuid_namespace_dns{ {0x6b, 0xa7, 0xb8, 0x10, 0x9d, 0xad, 0x11, 0xd1, 0x80, 0xb4, 0x00, 0xc0, 0x4f, 0xd4, 0x30, 0xc8} };
+   //   return uuid_namespace_dns;
+   // }
+   //
+   // // Name string is a URL
+   // static uuid uuid_namespace_url{ {0x6b, 0xa7, 0xb8, 0x11, 0x9d, 0xad, 0x11, 0xd1, 0x80, 0xb4, 0x00, 0xc0, 0x4f, 0xd4, 0x30, 0xc8} };
+   //
+   // // Name string is an ISO OID (See https://oidref.com/, https://en.wikipedia.org/wiki/Object_identifier)
+   // static uuid uuid_namespace_oid{ {0x6b, 0xa7, 0xb8, 0x12, 0x9d, 0xad, 0x11, 0xd1, 0x80, 0xb4, 0x00, 0xc0, 0x4f, 0xd4, 0x30, 0xc8} };
+   //
+   // // Name string is an X.500 DN, in DER or a text output format (See https://en.wikipedia.org/wiki/X.500, https://en.wikipedia.org/wiki/Abstract_Syntax_Notation_One)
+   // static uuid uuid_namespace_x500{ {0x6b, 0xa7, 0xb8, 0x14, 0x9d, 0xad, 0x11, 0xd1, 0x80, 0xb4, 0x00, 0xc0, 0x4f, 0xd4, 0x30, 0xc8} };
 
    // --------------------------------------------------------------------------------------------------------------------------
    // uuid generators
@@ -893,7 +911,7 @@ namespace uuids
 
 //            auto tm = get_time_intervals();
 
-//            short clock_seq = detail::clock_sequence++;
+//            short clock_seq = detail::clock_sequence()++;
 
 //            clock_seq &= 0x3FFF;
 
