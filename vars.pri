@@ -1,4 +1,4 @@
-TARGET = lib_glm
+TARGET = lib_stduuid
 TEMPLATE = subdirs
 
 DEFINES += LIB_GLM_LIBRARY
