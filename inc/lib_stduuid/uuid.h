@@ -613,9 +613,18 @@ template<class CharT = char,
 inline std::basic_string<CharT, Traits, Allocator> to_string(uuid const & id)
 {
   std::basic_stringstream<CharT, Traits, Allocator> sstr;
+  sstr.str().reserve(37);
   sstr << id;
   return sstr.str();
 }
+
+//inline std::string to_string(uuid const & id)
+//{
+//  std::stringstream sstr;
+//  sstr.str().reserve(37);
+//  sstr << id;
+//  return sstr.str();
+//}
 
 inline void swap(uuids::uuid & lhs, uuids::uuid & rhs) noexcept
 {
