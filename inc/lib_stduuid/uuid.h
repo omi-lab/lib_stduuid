@@ -543,6 +543,11 @@ public:
     return from_string(str.c_str());
   }
 
+  const std::array<value_type, 16>& asData() const
+  {
+    return data;
+  }
+
 private:
   std::array<value_type, 16> data{ { 0 } };
 
@@ -612,10 +617,48 @@ template<class CharT = char,
          class Allocator = std::allocator<CharT>>
 inline std::basic_string<CharT, Traits, Allocator> to_string(uuid const & id)
 {
-  std::basic_stringstream<CharT, Traits, Allocator> sstr;
-  sstr.str().reserve(37);
-  sstr << id;
-  return sstr.str();
+  static const char* const lut = "0123456789abcdef";
+  const auto& d = id.asData();
+  std::string s(size_t(36), '-');
+
+  s[ 0] = (lut[d[ 0] >> 4]);
+  s[ 1] = (lut[d[ 0] & 15]);
+  s[ 2] = (lut[d[ 1] >> 4]);
+  s[ 3] = (lut[d[ 1] & 15]);
+  s[ 4] = (lut[d[ 2] >> 4]);
+  s[ 5] = (lut[d[ 2] & 15]);
+  s[ 6] = (lut[d[ 3] >> 4]);
+  s[ 7] = (lut[d[ 3] & 15]);
+  // -
+  s[ 9] = (lut[d[ 4] >> 4]);
+  s[10] = (lut[d[ 4] & 15]);
+  s[11] = (lut[d[ 5] >> 4]);
+  s[12] = (lut[d[ 5] & 15]);
+  // -
+  s[14] = (lut[d[ 6] >> 4]);
+  s[15] = (lut[d[ 6] & 15]);
+  s[16] = (lut[d[ 7] >> 4]);
+  s[17] = (lut[d[ 7] & 15]);
+  // -
+  s[19] = (lut[d[ 8] >> 4]);
+  s[20] = (lut[d[ 8] & 15]);
+  s[21] = (lut[d[ 9] >> 4]);
+  s[22] = (lut[d[ 9] & 15]);
+  // -
+  s[24] = (lut[d[10] >> 4]);
+  s[25] = (lut[d[10] & 15]);
+  s[26] = (lut[d[11] >> 4]);
+  s[27] = (lut[d[11] & 15]);
+  s[28] = (lut[d[12] >> 4]);
+  s[29] = (lut[d[12] & 15]);
+  s[30] = (lut[d[13] >> 4]);
+  s[31] = (lut[d[13] & 15]);
+  s[32] = (lut[d[14] >> 4]);
+  s[33] = (lut[d[14] & 15]);
+  s[34] = (lut[d[15] >> 4]);
+  s[35] = (lut[d[15] & 15]);
+
+  return s;
 }
 
 //inline std::string to_string(uuid const & id)
