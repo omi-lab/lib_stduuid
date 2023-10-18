@@ -221,7 +221,7 @@ private:
     uint32_t d = m_digest[3];
     uint32_t e = m_digest[4];
 
-    for(std::size_t i = 0; i < 80; ++i)
+    for(size_t i = 0; i < 80; ++i)
     {
       uint32_t f = 0;
       uint32_t k = 0;
@@ -918,7 +918,7 @@ template <>
 struct hash<uuids::uuid>
 {
   using argument_type = uuids::uuid;
-  using result_type   = std::size_t;
+  using result_type   = size_t;
 
   result_type operator()(argument_type const &uuid) const
   {
